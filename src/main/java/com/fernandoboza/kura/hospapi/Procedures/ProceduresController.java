@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -23,16 +23,16 @@ public class ProceduresController {
     @PostMapping(path = "{hosp_id}/procedures", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public Iterable<Procedures> createProcedure(@PathVariable String hosp_id, @RequestBody List<Procedures> procedures) {
         Optional<Hospital> hosOpt = hospitalRepository.findById(Integer.parseInt(hosp_id));
-        List<String> procList = new ArrayList<>();
         Hospital h = new Hospital();
         if (hosOpt.isPresent()) {
             h = hosOpt.get();
+//            h.setProcedures(procedures);
+            System.out.println(h);
         }
         for (Procedures p : procedures) {
-            p.setHospital(String.valueOf(h.getId()));
-            procList.add(String.valueOf(p.getId()));
+//            p.setHospital(h);
+            System.out.println(p);
         }
-        h.setProcedures(procList);
         return proceduresRepository.saveAll(procedures);
     }
 }

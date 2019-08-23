@@ -12,8 +12,8 @@ public class Procedures {
     private int id;
     private String name;
     private double price;
-    @ManyToOne(targetEntity = Hospital.class)
-    private String hospital;
+    @ManyToOne
+    private Hospital hospital;
 
     public int getId() {
         return id;
@@ -35,11 +35,11 @@ public class Procedures {
         this.price = price;
     }
 
-    public String getHospital() {
+    public Hospital getHospital() {
         return hospital;
     }
 
-    public void setHospital(String hospital) {
+    public void setHospital(Hospital hospital) {
         this.hospital = hospital;
     }
 }
