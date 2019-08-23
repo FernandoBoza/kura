@@ -95,6 +95,7 @@ public class Hospital {
     }
 
     public void setProcedures(List<Procedures> procedures) {
+        System.out.println(procedures.toString());
         this.procedures = procedures;
     }
 }

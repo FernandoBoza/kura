@@ -26,13 +26,16 @@ public class ProceduresController {
         Hospital h = new Hospital();
         if (hosOpt.isPresent()) {
             h = hosOpt.get();
-//            h.setProcedures(procedures);
-            System.out.println(h);
-        }
-        for (Procedures p : procedures) {
+
+            for (Procedures p : procedures) {
 //            p.setHospital(h);
-            System.out.println(p);
+//            System.out.println(p);
+            }
+            h.setProcedures(procedures);
+            return proceduresRepository.saveAll(procedures);
+        } else {
+            return null;
         }
-        return proceduresRepository.saveAll(procedures);
+
     }
 }
