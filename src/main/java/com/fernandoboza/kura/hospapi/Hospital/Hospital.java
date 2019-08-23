@@ -19,8 +19,10 @@ public class Hospital {
     private String state;
     private double lat;
     private double lng;
-    @OneToMany(mappedBy="hospital")
+    @OneToMany()
     private List<Procedures> procedures = new ArrayList<>();
+
+    public Hospital(){};
 
     public int getId() {
         return id;
@@ -95,7 +97,6 @@ public class Hospital {
     }
 
     public void setProcedures(List<Procedures> procedures) {
-        System.out.println(procedures.toString());
-        this.procedures = procedures;
+        this.procedures.addAll(procedures);
     }
 }

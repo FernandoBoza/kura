@@ -17,48 +17,29 @@ import static com.fernandoboza.kura.hospapi.Utils.Utils.createLatCord;
 @CrossOrigin // For DEV Angular and Spring app locally REMOVE FOR PRODUCTION
 public class HospitalController {
     @Autowired
-    private HospitalRepository hospitalRepository;
+    private HospitalService hospitalService;
 
     @PostMapping(path = "", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public Iterable<Hospital> createHospital(@RequestBody List<Hospital> hospitals) throws InterruptedException, ApiException, IOException {
-        List<Hospital> newHosp = new ArrayList<>();
-        for (Hospital hosp : hospitals) {
-            newHosp.add(createLatCord(hosp));
-        }
-        return hospitalRepository.saveAll(newHosp);
+        return hospitalService.createHospital(hospitals);
     }
 
     @GetMapping(path = "")
     public Iterable<Hospital> findAllHospital() {
-        return hospitalRepository.findAll();
+        return hospitalService.findAllHospital();
     }
 
     @GetMapping(path = "{id}")
     public Optional<Hospital> findById(@PathVariable String id) {
-        int parsedInt = Integer.parseInt(id);
-        return hospitalRepository.findById(parsedInt);
+        return hospitalService.findById(id);
     }
     @PutMapping(path = "{id}", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public Hospital updateHospital(@PathVariable String id, @RequestBody Hospital hospital) {
-        if (hospitalRepository.existsById(Integer.parseInt(id))) {
-            return hospitalRepository.save(hospital);
-        } else {
-            return null;
-        }
+        return hospitalService.updateHospital(id, hospital);
     }
 
     @DeleteMapping(path = "{id}")
     public String deleteHospital(@PathVariable String id){
-        Optional<Hospital> hospName = hospitalRepository.findById(Integer.parseInt(id));
-        var ref = new Object() {
-            String name;
-        };
-        hospName.flatMap(hospital -> {
-            ref.name = hospital.getName();
-            return Optional.empty();
-        });
-        hospitalRepository.deleteById(Integer.parseInt(id));
-
-        return "Deleted hospital " + ref.name + " | id : " + id;
+      return hospitalService.deleteHospital(id);
     }
 }

@@ -29,7 +29,7 @@ public class ProceduresController {
 
             for (Procedures p : procedures) {
 //            p.setHospital(h);
-//            System.out.println(p);
+                System.out.println("from proc controller");
             }
             h.setProcedures(procedures);
             return proceduresRepository.saveAll(procedures);
