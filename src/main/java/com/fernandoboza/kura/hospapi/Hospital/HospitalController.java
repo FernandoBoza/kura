@@ -30,6 +30,7 @@ public class HospitalController {
     public Optional<Hospital> findById(@PathVariable String id) {
         return hospitalService.findById(id);
     }
+
     @PutMapping(path = "{id}", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public Hospital updateHospital(@PathVariable String id, @RequestBody Hospital hospital) {
         return hospitalService.updateHospital(id, hospital);
