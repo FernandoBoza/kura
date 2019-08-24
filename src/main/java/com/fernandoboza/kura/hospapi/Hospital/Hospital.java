@@ -19,7 +19,7 @@ public class Hospital {
     private String state;
     private double lat;
     private double lng;
-    @OneToMany()
+    @OneToMany(mappedBy="hospital")
     private List<Procedures> procedures = new ArrayList<>();
 
     public Hospital() {

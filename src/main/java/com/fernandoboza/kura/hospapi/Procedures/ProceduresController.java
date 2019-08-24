@@ -23,12 +23,12 @@ public class ProceduresController {
     @PostMapping(path = "{hosp_id}/procedures", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public Iterable<Procedures> createProcedure(@PathVariable String hosp_id, @RequestBody List<Procedures> procedures) {
         Optional<Hospital> hosOpt = hospitalRepository.findById(Integer.parseInt(hosp_id));
-        Hospital h = new Hospital();
+        Hospital h;
         if (hosOpt.isPresent()) {
             h = hosOpt.get();
 
             for (Procedures p : procedures) {
-                p.setHospital(hosp_id);
+                p.setHospital(Integer.parseInt(hosp_id));
             }
 
             h.setProcedures(procedures);
