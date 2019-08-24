@@ -22,7 +22,8 @@ public class Hospital {
     @OneToMany()
     private List<Procedures> procedures = new ArrayList<>();
 
-    public Hospital(){};
+    public Hospital() {
+    }
 
     public int getId() {
         return id;

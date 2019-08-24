@@ -28,9 +28,9 @@ public class ProceduresController {
             h = hosOpt.get();
 
             for (Procedures p : procedures) {
-//            p.setHospital(h);
-                System.out.println("from proc controller");
+                p.setHospital(hosp_id);
             }
+
             h.setProcedures(procedures);
             return proceduresRepository.saveAll(procedures);
         } else {
