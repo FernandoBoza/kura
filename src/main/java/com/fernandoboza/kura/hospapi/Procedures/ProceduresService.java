@@ -2,6 +2,7 @@ package com.fernandoboza.kura.hospapi.Procedures;
 
 import com.fernandoboza.kura.hospapi.Hospital.Hospital;
 import com.fernandoboza.kura.hospapi.Hospital.HospitalRepository;
+import static com.fernandoboza.kura.hospapi.Utils.Utils.getFromOptional;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.ArrayList;
@@ -21,12 +22,19 @@ public class ProceduresService {
 
     @Autowired
     public ProceduresService(ProceduresRepository proceduresRepository) {
+
         this.proceduresRepository = proceduresRepository;
     }
 
-    public Optional<Procedures> findById(String id) {
+    public Optional<Procedures> findById(String hosp_id, String id) {
         int parsedInt = Integer.parseInt(id);
-        return proceduresRepository.findById(parsedInt);
+        Procedures newP = getFromOptional(proceduresRepository.findById(parsedInt));
+        if (newP.getHospital() == Integer.parseInt(hosp_id)) {
+            return proceduresRepository.findById(parsedInt);
+        } else {
+            return null;
+//            TODO: Work on TRY CATCH for PROCEDURES THAT DONT EXIST
+        }
     }
 
     public Iterable<Procedures> findAllProcedures(String hosp_id) {
@@ -58,7 +66,7 @@ public class ProceduresService {
         }
     }
 
-    public Procedures updateProcedures(String id, Procedures procedure) {
+    public Procedures updateProcedures(String hosp_id, String id, Procedures procedure) {
         if (proceduresRepository.existsById(Integer.parseInt(id))) {
             return proceduresRepository.save(procedure);
         } else {
@@ -66,8 +74,8 @@ public class ProceduresService {
         }
     }
 
-    public String deleteProcedures(String id){
-        Optional<Procedures> procedure = findById(id);
+    public String deleteProcedures(String hosp_id, String id) {
+        Optional<Procedures> procedure = findById(hosp_id, id);
         var ref = new Object() {
             String name;
         };

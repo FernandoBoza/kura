@@ -24,18 +24,18 @@ public class ProceduresController {
         return proceduresService.findAllProcedures(hosp_id);
     }
 
-    @GetMapping(path = "procedures/{id}")
-    public Optional<Procedures> findById(@PathVariable String id) {
-        return proceduresService.findById(id);
+    @GetMapping(path = "{hosp_id}/procedures/{id}")
+    public Optional<Procedures> findById(@PathVariable String hosp_id ,@PathVariable String id) {
+        return proceduresService.findById(hosp_id, id);
     }
 
-    @PutMapping(path = "procedures/{id}", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
-        public Procedures updateProcedures(@PathVariable String id, @RequestBody Procedures procedure) {
-        return proceduresService.updateProcedures(id, procedure);
+    @PutMapping(path = "{hosp_id}/procedures/{id}", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
+        public Procedures updateProcedures(@PathVariable String hosp_id ,@PathVariable String id, @RequestBody Procedures procedure) {
+        return proceduresService.updateProcedures(hosp_id, id, procedure);
     }
 
-    @DeleteMapping(path = "procedures/{id}")
-    public String deleteHospital(@PathVariable String id){
-        return proceduresService.deleteProcedures(id);
+    @DeleteMapping(path = "{hosp_id}/procedures/{id}")
+    public String deleteHospital(@PathVariable String hosp_id ,@PathVariable String id){
+        return proceduresService.deleteProcedures(hosp_id, id);
     }
 }

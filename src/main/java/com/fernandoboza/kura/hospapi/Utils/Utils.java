@@ -7,6 +7,8 @@ import com.google.maps.errors.ApiException;
 import com.google.maps.model.GeocodingResult;
 
 import java.io.IOException;
+import java.util.List;
+import java.util.Optional;
 
 public class Utils {
 
@@ -17,4 +19,9 @@ public class Utils {
         hosp.setLng(results[0].geometry.location.lng);
         return hosp;
     }
+
+    public static <T> T getFromOptional(Optional<T> opt){
+        return (T) opt.orElse(null);
+    }
+
 }
