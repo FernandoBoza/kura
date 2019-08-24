@@ -2,7 +2,9 @@ package com.fernandoboza.kura.hospapi.Procedures;
 
 import com.fernandoboza.kura.hospapi.Hospital.Hospital;
 import com.fernandoboza.kura.hospapi.Hospital.HospitalRepository;
+
 import static com.fernandoboza.kura.hospapi.Utils.Utils.getFromOptional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.ArrayList;
@@ -50,24 +52,18 @@ public class ProceduresService {
 
 
     public Iterable<Procedures> createProcedure(String hosp_id, List<Procedures> procedures) {
-        Optional<Hospital> hosOpt = hospitalRepository.findById(Integer.parseInt(hosp_id));
-        Hospital h;
-        if (hosOpt.isPresent()) {
-            h = hosOpt.get();
-
-            for (Procedures p : procedures) {
-                p.setHospital(Integer.parseInt(hosp_id));
-            }
-
-            h.setProcedures(procedures);
-            return proceduresRepository.saveAll(procedures);
-        } else {
-            return null;
+        Hospital h = getFromOptional(hospitalRepository.findById(Integer.parseInt(hosp_id)));
+        h.setProcedures(procedures);
+        for (Procedures p : procedures) {
+            p.setHospital(Integer.parseInt(hosp_id));
         }
+        return proceduresRepository.saveAll(procedures);
+
     }
 
     public Procedures updateProcedures(String hosp_id, String id, Procedures procedure) {
-        if (proceduresRepository.existsById(Integer.parseInt(id))) {
+        Procedures newP = getFromOptional(proceduresRepository.findById(Integer.parseInt(id)));
+        if (newP.getHospital() == Integer.parseInt(hosp_id) && proceduresRepository.existsById(Integer.parseInt(id))) {
             return proceduresRepository.save(procedure);
         } else {
             return null;
@@ -75,16 +71,17 @@ public class ProceduresService {
     }
 
     public String deleteProcedures(String hosp_id, String id) {
-        Optional<Procedures> procedure = findById(hosp_id, id);
+        Procedures newP = getFromOptional(proceduresRepository.findById(Integer.parseInt(id)));
         var ref = new Object() {
-            String name;
+            String name = newP.getName();
         };
-        procedure.flatMap(p -> {
-            ref.name = p.getName();
-            return Optional.empty();
-        });
-        proceduresRepository.deleteById(Integer.parseInt(id));
 
-        return "Deleted hospital " + ref.name + " | id : " + id;
+        if (newP.getHospital() == Integer.parseInt(hosp_id)) {
+            proceduresRepository.deleteById(Integer.parseInt(id));
+            return "Deleted Procedure " + ref.name + " | id : " + id;
+        } else {
+            return "Doesn't Exist";
+        }
+
     }
 }

@@ -7,7 +7,6 @@ import com.google.maps.errors.ApiException;
 import com.google.maps.model.GeocodingResult;
 
 import java.io.IOException;
-import java.util.List;
 import java.util.Optional;
 
 public class Utils {
