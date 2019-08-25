@@ -1,14 +1,14 @@
 package com.fernandoboza.kura.hospapi.Hospital;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import com.google.maps.errors.ApiException;
-
-import static com.fernandoboza.kura.hospapi.Utils.Utils.createLatCord;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+
+import static com.fernandoboza.kura.hospapi.Utils.Utils.*;
 
 @org.springframework.stereotype.Service
 public class HospitalService {
@@ -46,17 +46,15 @@ public class HospitalService {
     }
 
     public String deleteHospital(String id){
-        Optional<Hospital> hospName = findById(id);
-        var ref = new Object() {
-            String name;
-        };
-        hospName.flatMap(hospital -> {
-            ref.name = hospital.getName();
-            return Optional.empty();
-        });
+        Hospital h = getFromOptional(findById(id));
+        String name = h.getName();
         hospitalRepository.deleteById(Integer.parseInt(id));
+        return "Deleted hospital " + name + " | id : " + id;
+    }
 
-        return "Deleted hospital " + ref.name + " | id : " + id;
+    public List<Hospital> findHospitalByZipcode(String zipcode) throws InterruptedException, ApiException, IOException {
+        System.out.println(ZipodePoint(zipcode));
+        return null;
     }
 
 }

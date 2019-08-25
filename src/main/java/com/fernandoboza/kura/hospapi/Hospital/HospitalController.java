@@ -40,4 +40,9 @@ public class HospitalController {
     public String deleteHospital(@PathVariable String id){
       return hospitalService.deleteHospital(id);
     }
+
+    @GetMapping(path = "search/{zip}", produces=MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public List<Hospital> findHospitalByZipcode(@PathVariable String zip) throws InterruptedException, ApiException, IOException {
+        return hospitalService.findHospitalByZipcode(zip);
+    }
 }
