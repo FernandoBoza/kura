@@ -2,6 +2,8 @@ package com.fernandoboza.kura.hospapi.Hospital;
 
 import org.springframework.data.repository.CrudRepository;
 
-public interface HospitalRepository extends CrudRepository<Hospital, Integer> {
+import java.util.List;
 
+public interface HospitalRepository extends CrudRepository<Hospital, Integer> {
+    List<Hospital> findByLatAndLng(Double lat, Double lng);
 }
