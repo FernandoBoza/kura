@@ -11,7 +11,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/hospitals/v1/hosp/")
-@CrossOrigin // For DEV Angular and Spring app locally REMOVE FOR PRODUCTION
+@CrossOrigin
 public class HospitalController {
     @Autowired
     private HospitalService hospitalService;

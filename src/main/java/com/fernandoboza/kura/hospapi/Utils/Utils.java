@@ -30,14 +30,15 @@ public class Utils {
         return (T) opt.orElse(null);
     }
 
-    public static double haversine(double lat1, double lon1, double lat2, double lon2) {
-        final double R = 3959; // Miles
-        double dLat = Math.toRadians(lat2 - lat1);
-        double dLon = Math.toRadians(lon2 - lon1);
-        lat1 = Math.toRadians(lat1);
-        lat2 = Math.toRadians(lat2);
+    public static double haversine(double s_lat, double s_lng, double e_lat, double e_lng) {
+        // Earth radius 3959 miles
+        final double R = 3959; // For Kilometers use 3959
+        double dLat = Math.toRadians(e_lat - s_lat);
+        double dLon = Math.toRadians(e_lng - s_lng);
+        s_lat = Math.toRadians(s_lat);
+        e_lat = Math.toRadians(e_lat);
 
-        double a = Math.pow(Math.sin(dLat / 2), 2) + Math.pow(Math.sin(dLon / 2), 2) * Math.cos(lat1) * Math.cos(lat2);
+        double a = Math.pow(Math.sin(dLat / 2), 2) + Math.pow(Math.sin(dLon / 2), 2) * Math.cos(s_lat) * Math.cos(e_lat);
         double c = 2 * Math.asin(Math.sqrt(a));
         return R * c;
     }
