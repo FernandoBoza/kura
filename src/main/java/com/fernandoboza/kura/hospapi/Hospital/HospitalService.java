@@ -2,6 +2,7 @@ package com.fernandoboza.kura.hospapi.Hospital;
 
 import com.google.maps.errors.ApiException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.Query;
 
 import java.io.IOException;
 import java.util.ArrayList;
