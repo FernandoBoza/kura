@@ -5,5 +5,5 @@ import org.springframework.data.repository.CrudRepository;
 import java.util.List;
 
 public interface HospitalRepository extends CrudRepository<Hospital, Integer> {
-    List<Hospital> findByLatAndLng(Double lat, Double lng);
+//    List<Hospital> findByLatAndLng(Double lat, Double lng);
 }

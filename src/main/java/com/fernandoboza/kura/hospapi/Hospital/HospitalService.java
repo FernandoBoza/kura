@@ -3,10 +3,11 @@ package com.fernandoboza.kura.hospapi.Hospital;
 import com.google.maps.errors.ApiException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 import static com.fernandoboza.kura.hospapi.Utils.Utils.*;
 
@@ -53,9 +54,17 @@ public class HospitalService {
     }
 
 //    @Query("SELECT h FROM hospital h where h.lat = ?1 And h.lng = ?2")
-    @Query("SELECT *, ( 6371 * acos( cos( radians(?1) ) * cos( radians( lat ) ) * cos( radians( lng ) - radians( ?2) ) + sin( radians(?1) ) * sin( radians( lat ) ) ) ) AS distance FROM hospital HAVING distance < 8.5 ORDER BY distance LIMIT 0 , 20")
-    public List<Hospital> findHospitalByZipcode(String zipcode) throws InterruptedException, ApiException, IOException {
+//    @Query("SELECT *, ( 6371 * acos( cos( radians(?1) ) * cos( radians( lat ) ) * cos( radians( lng ) - radians( ?2) ) + sin( radians(?1) ) * sin( radians( lat ) ) ) ) AS distance FROM hospital HAVING distance < 8.5 ORDER BY distance LIMIT 0 , 20")
+//    @Query("SELECT h from hospital h")
+    public List<Hospital> findHospitalByZipcode(String zipcode, String radius) throws InterruptedException, ApiException, IOException {
         double[] coords = ZipodePoint(zipcode);
-        return hospitalRepository.findByLatAndLng(coords[0], coords[1]);
+        List<Hospital> hospitalsWithinRadius = new ArrayList<>();
+        for (Hospital h : findAllHospital()){
+            double distance = haversine(coords[0], coords[1], h.getLat(),h.getLng());
+            if (distance <= Double.parseDouble(radius)){
+                hospitalsWithinRadius.add(h);
+            }
+        }
+        return hospitalsWithinRadius;
     }
 }

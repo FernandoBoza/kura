@@ -41,9 +41,9 @@ public class HospitalController {
       return hospitalService.deleteHospital(id);
     }
 
-    @GetMapping(path = "search/{zip}", produces=MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public List<Hospital> findHospitalByZipcode(@PathVariable String zip) throws InterruptedException, ApiException, IOException {
-        return hospitalService.findHospitalByZipcode(zip);
+    @GetMapping(path = "search/{zip}_{radius}", produces=MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public List<Hospital> findHospitalByZipcode(@PathVariable String zip, @PathVariable String radius) throws InterruptedException, ApiException, IOException {
+        return hospitalService.findHospitalByZipcode(zip, radius);
     }
 }
 
