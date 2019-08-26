@@ -53,9 +53,6 @@ public class HospitalService {
         return "Deleted hospital " + name + " | id : " + id;
     }
 
-//    @Query("SELECT h FROM hospital h where h.lat = ?1 And h.lng = ?2")
-//    @Query("SELECT *, ( 6371 * acos( cos( radians(?1) ) * cos( radians( lat ) ) * cos( radians( lng ) - radians( ?2) ) + sin( radians(?1) ) * sin( radians( lat ) ) ) ) AS distance FROM hospital HAVING distance < 8.5 ORDER BY distance LIMIT 0 , 20")
-//    @Query("SELECT h from hospital h")
     public List<Hospital> findHospitalByZipcode(String zipcode, String radius) throws InterruptedException, ApiException, IOException {
         double[] coords = ZipodePoint(zipcode);
         List<Hospital> hospitalsWithinRadius = new ArrayList<>();
