@@ -5,7 +5,7 @@ import com.google.maps.GeoApiContext;
 import com.google.maps.GeocodingApi;
 import com.google.maps.errors.ApiException;
 import com.google.maps.model.GeocodingResult;
-import org.springframework.data.geo.Point;
+import static com.fernandoboza.kura.hospapi.Utils.Keys.*;
 
 import java.io.IOException;
 import java.util.Optional;
@@ -13,7 +13,7 @@ import java.util.Optional;
 public class Utils {
 
     public static Hospital createLatCord(Hospital hosp) throws InterruptedException, ApiException, IOException {
-        GeoApiContext context = new GeoApiContext.Builder().apiKey("AIzaSyB7XZM9ZU0jM3SAnFxfLes_8OXOQ0ugI9I").build();
+        GeoApiContext context = new GeoApiContext.Builder().apiKey(getGoogleMapsApiKey()).build();
         GeocodingResult[] results = GeocodingApi.geocode(context, hosp.getAddress() + hosp.getCity() + hosp.getState() + hosp.getZipcode()).await();
         hosp.setLat(results[0].geometry.location.lat);
         hosp.setLng(results[0].geometry.location.lng);
@@ -21,7 +21,7 @@ public class Utils {
     }
 
     public static double[] ZipodePoint(String zipcode) throws InterruptedException, ApiException, IOException {
-        GeoApiContext context = new GeoApiContext.Builder().apiKey("AIzaSyB7XZM9ZU0jM3SAnFxfLes_8OXOQ0ugI9I").build();
+        GeoApiContext context = new GeoApiContext.Builder().apiKey(getGoogleMapsApiKey()).build();
         GeocodingResult[] results = GeocodingApi.geocode(context, zipcode).await();
         return new double[]{results[0].geometry.location.lat, results[0].geometry.location.lng};
     }
@@ -31,7 +31,6 @@ public class Utils {
     }
 
     public static double haversine(double s_lat, double s_lng, double e_lat, double e_lng) {
-        // Earth radius 3959 miles
         final double R = 3959; // For Kilometers use 3959
         double dLat = Math.toRadians(e_lat - s_lat);
         double dLon = Math.toRadians(e_lng - s_lng);

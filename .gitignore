@@ -5,6 +5,7 @@ build/
 !**/src/main/**
 !**/src/test/**
 
+/src/main/java/com/fernandoboza/kura/hospapi/Utils/Keys.java
 
 ### Dependency Directories ###
 client/node_modules/
