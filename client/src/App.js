@@ -55,8 +55,6 @@ class App extends React.Component {
         this.setState({
             hospSelected: hospital.id
         });
-
-        console.log(this.state.hospSelected);
     };
 
     render() {
