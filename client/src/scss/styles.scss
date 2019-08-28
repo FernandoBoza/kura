@@ -52,7 +52,6 @@ nav {
 }
 
 button.primary {
-  margin-left: 1rem;
   height: 2.4rem;
   border-radius: 5px;
   outline: none;
@@ -81,6 +80,7 @@ section.main {
 
 h1,
 h3,
+h4,
 h5 {
   font-family: $font_one, serif;
   font-weight: normal;
@@ -88,6 +88,7 @@ h5 {
 
 h1,
 h3,
+h4,
 p {
   color: $blue;
 }
@@ -99,6 +100,7 @@ p {
     max-height: 140px;
     transition: max-height 0.6s, opacity 0.6s, margin-bottom 0.6s;
     margin-bottom: 2rem;
+
     &.hide {
       opacity: 0;
       max-height: 0;
@@ -117,7 +119,11 @@ h3 {
   font-size: 1.3rem;
 }
 
-search {
+h4 {
+  font-size: 1rem;
+}
+
+.search_icon_input {
   display: block;
   position: relative;
 
@@ -145,9 +151,10 @@ search {
   width: 400px;
   display: grid;
   grid-gap: 2rem;
-  margin-top: 4rem;
+  margin-top: 2rem;
   grid-template-columns: 1fr 1fr;
   transition: bottom 0.4s, opacity 0.4s;
+
 
   &.hide {
     position: relative;
@@ -176,6 +183,28 @@ search {
       left: 1rem;
       top: 1rem;
       color: white;
+      z-index: 3;
+    }
+
+    &.blue {
+      background: $blue;
+      border-radius: 10px;
+      overflow: hidden;
+      height: 180px;
+
+      div {
+        position: absolute;
+        opacity: .5;
+        transform: rotate(180deg);
+        top: -5px;
+
+        &:nth-child(1){
+          opacity: .5;
+        }
+        &:nth-child(2){
+          opacity: .7;
+        }
+      }
     }
   }
 }
@@ -215,6 +244,7 @@ hospital-results {
     &.selected {
       box-shadow: 0px 5px 5px 0px #00124626;
     }
+
     &.selected,
     &:hover {
       background: #e5f4fb;
@@ -240,4 +270,37 @@ hospital-results {
 
 .remove {
   display: none;
+}
+
+.marker {
+
+  i {
+    font-size: 1.5rem;
+    color: $blue
+  }
+
+  &.selected,
+  &:hover {
+    * {
+      cursor: pointer;
+    }
+
+    .hosp-content {
+      transform: scale(1);
+    }
+  }
+
+  .hosp-content {
+    display: block;
+    width: 220px;
+    height: 100px;
+    background: white;
+    border-radius: 6px;
+    padding: 16px;
+    box-shadow: 0px 5px 4px 0px #0000006e;
+    transition: transform .5s;
+    transform: scale(0);
+    transform-origin: left top;
+    cursor: pointer;
+  }
 }

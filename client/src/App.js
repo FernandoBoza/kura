@@ -1,21 +1,65 @@
 import React from 'react';
 import GoogleMapReact from 'google-map-react';
+import blueBlock from "./assets/blue.svg";
+import purpleBlock from "./assets/purple.svg";
+import Marker from "./components/Marker";
+import SearchBar from "./components/SearchBar";
+import axios from "axios";
+import Wave from 'react-wavify'
 
 class App extends React.Component {
 
+
     state = {
-        title: "Hospital services at a glance"
+        hospitals: [],
+        title: "Hospital services at a glance",
+        lat: 25.7617,
+        lng: -80.1918,
+        radius: 12,
+        hospSelected: ''
+    };
+
+    getZipcodeCoordinates = (zipcode, radius) => {
+        let zipSearch = `https://maps.googleapis.com/maps/api/geocode/json?address=${zipcode}&key=AIzaSyB7XZM9ZU0jM3SAnFxfLes_8OXOQ0ugI9I`;
+        axios.get(zipSearch)
+            .then(res => {
+                let {lat, lng} = res.data['results'][0].geometry.location;
+                this.findAllHospitals(radius, lat, lng)
+            })
+    };
+
+    calcRadius = radius => {
+        if (radius <= 5) {
+            return 16;
+        } else if (radius <= 10) {
+            return 12;
+        } else if (radius <= 20) {
+            return 10
+        }
+    };
+
+    findAllHospitals = (radius, lat, lng) => {
+        axios.get(`http://localhost:8080/hospitals/v1/hosp/search/${radius}_${lat}_${lng}`)
+            .then(res => {
+                this.setState({
+                    hospitals: res.data,
+                    lat: lat,
+                    lng: lng,
+                    radius: this.calcRadius(radius)
+                });
+            })
+            .catch(err => console.log(err));
+    };
+
+    hospitalSelect = hospital => {
+        this.setState({
+            hospSelected: hospital.id
+        });
+
+        console.log(this.state.hospSelected);
     };
 
     render() {
-        const greatPlaceStyle = {
-            position: 'absolute',
-            transform: 'translate(-50%, -50%)',
-            fontSize: '3rem',
-            color: 'red'
-        };
-
-        let x = [1,2,3,4,5,6];
         return (
             <section className="app">
                 <nav>
@@ -28,23 +72,40 @@ class App extends React.Component {
                 <section className="main">
                     <section className="left-col col">
                         <h1>{this.state.title}</h1>
-                        <p className=" intro">Lorem ipsum dolor sit amet, consectetur
-                            adipisicing elit. Aperiam
-                            corporis expedita
-                            minima omnis perspiciatis
-                            quasi quibusdam quis reiciendis repellendus ut! Consequatur illo inventore ipsum iure nobis
-                            porro quasi reiciendis
-                            vitae.</p>
+                        <p className=" intro">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aperiam corporis
+                            expedita minima omnis perspiciatis quasi quibusdam quis reiciendis repellendus ut!
+                            Consequatur illo inventore ipsum iure nobis porro quasi reiciendis vitae.</p>
+
+
+                        <SearchBar search={this.getZipcodeCoordinates}/>
 
                         <div className="wave_blocks">
                             <div className=" block blue">
                                 <p>Hospitals</p>
-                                <img src="../assets/blue.svg" alt=""/>
+                                <Wave fill='#70befe'
+                                      paused={false}
+                                      options={{
+                                          height: 30,
+                                          amplitude: 20,
+                                          speed: 0.25,
+                                          points: 2
+                                      }}
+                                />
+                                <Wave fill='#4db1fd'
+                                      paused={false}
+                                      options={{
+                                          height: 40,
+                                          amplitude: 20,
+                                          speed: 0.25,
+                                          points: 5
+                                      }}
+                                />
                             </div>
-                            <div className=" block purple">
-                                <p>Services</p>
-                                <img src="../assets/purple.svg" alt=""/>
-                            </div>
+
+                            {/*<div className=" block purple">*/}
+                            {/*    <p>Services</p>*/}
+                            {/*    <img src={purpleBlock} alt=""/>*/}
+                            {/*</div>*/}
                         </div>
 
 
@@ -52,9 +113,10 @@ class App extends React.Component {
                     <section className=" right-col col">
                         <GoogleMapReact
                             bootstrapURLKeys={{key: " AIzaSyB7XZM9ZU0jM3SAnFxfLes_8OXOQ0ugI9I"}}
-                            defaultCenter={[25.7617, -80.1918]} defaultZoom={12}>
-                            {x.map( t => {
-                                return <div style={greatPlaceStyle}  lat={25.7617} lng={-80.1918}>{t}</div>
+                            center={[this.state.lat, this.state.lng]} zoom={this.state.radius}>
+                            {this.state.hospitals.map(h => {
+                                return <Marker key={h.id} lat={h.lat} lng={h.lng} selected={this.state.hospSelected}
+                                               hospitalSelect={this.hospitalSelect} hosp={h}/>
                             })}
                         </GoogleMapReact>
                     </section>

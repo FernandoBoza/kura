@@ -53,11 +53,10 @@ public class HospitalService {
         return "Deleted hospital " + name + " | id : " + id;
     }
 
-    public List<Hospital> findHospitalByZipcode(String zipcode, String radius) throws InterruptedException, ApiException, IOException {
-        double[] coords = ZipodePoint(zipcode);
+    public List<Hospital> findHospitalByZipcode(String radius, String lat, String lng) throws InterruptedException, ApiException, IOException {
         List<Hospital> hospitalsWithinRadius = new ArrayList<>();
         for (Hospital h : findAllHospital()){
-            double distance = haversine(coords[0], coords[1], h.getLat(),h.getLng());
+            double distance = haversine(Double.parseDouble(lat), Double.parseDouble(lng), h.getLat(),h.getLng());
             if (distance <= Double.parseDouble(radius)){
                 hospitalsWithinRadius.add(h);
             }
