@@ -202,7 +202,7 @@ h4 {
           opacity: .5;
         }
         &:nth-child(2){
-          opacity: .7;
+          opacity: .4;
         }
       }
     }
@@ -224,10 +224,10 @@ section.right-col.col {
   }
 }
 
-hospital-results {
+.hospital-results {
   margin-top: 1.4rem;
   display: block;
-  height: 65vh;
+  height: 41vh;
   overflow: scroll;
   padding: 0 5px;
 

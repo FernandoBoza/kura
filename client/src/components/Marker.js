@@ -1,10 +1,8 @@
 import React from 'react';
 
 const Marker = (props) => {
-    const name = props.hosp.name;
-    const phone = props.hosp.phone;
-    const address = props.hosp.address;
-    const selected = props.selected === props.hosp.id ? 'selected' : ''
+    const {name, phone, address, id} = props.hosp;
+    const selected = props.selected === id ? 'selected' : '';
     return (
         <div className={'marker ' + selected} onClick={() => props.hospitalSelect(props.hosp)}>
             <i className="fas fa-hospital"/>

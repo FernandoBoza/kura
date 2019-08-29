@@ -31,7 +31,7 @@ public class Utils {
     }
 
     public static double haversine(double s_lat, double s_lng, double e_lat, double e_lng) {
-        final double R = 3959; // For Kilometers use 3959
+        final double R = 3959; // For Kilometers use 6371
         double dLat = Math.toRadians(e_lat - s_lat);
         double dLon = Math.toRadians(e_lng - s_lng);
         s_lat = Math.toRadians(s_lat);

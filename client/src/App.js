@@ -1,11 +1,10 @@
 import React from 'react';
 import GoogleMapReact from 'google-map-react';
-import blueBlock from "./assets/blue.svg";
-import purpleBlock from "./assets/purple.svg";
 import Marker from "./components/Marker";
 import SearchBar from "./components/SearchBar";
 import axios from "axios";
 import Wave from 'react-wavify'
+import Result from "./components/Results";
 
 class App extends React.Component {
 
@@ -77,41 +76,39 @@ class App extends React.Component {
 
                         <SearchBar search={this.getZipcodeCoordinates}/>
 
-                        <div className="wave_blocks">
-                            <div className=" block blue">
-                                <p>Hospitals</p>
-                                <Wave fill='#70befe'
-                                      paused={false}
-                                      options={{
-                                          height: 30,
-                                          amplitude: 20,
-                                          speed: 0.25,
-                                          points: 2
-                                      }}
-                                />
-                                <Wave fill='#4db1fd'
-                                      paused={false}
-                                      options={{
-                                          height: 40,
-                                          amplitude: 20,
-                                          speed: 0.25,
-                                          points: 5
-                                      }}
-                                />
-                            </div>
+                        <Result hospitals={this.state.hospitals} lat={this.state.lat} lng={this.state.lng} selected={this.state.hospSelected} hospitalSelect={this.hospitalSelect}/>
 
-                            {/*<div className=" block purple">*/}
-                            {/*    <p>Services</p>*/}
-                            {/*    <img src={purpleBlock} alt=""/>*/}
-                            {/*</div>*/}
-                        </div>
+                        {/*<div className="wave_blocks" >*/}
+                        {/*    <div className=" block blue">*/}
+                        {/*        <p>Hospitals</p>*/}
+                        {/*        <Wave fill='#ffffff'*/}
+                        {/*              paused={false}*/}
+                        {/*              options={{*/}
+                        {/*                  height: 40,*/}
+                        {/*                  amplitude: 10,*/}
+                        {/*                  speed: 0.15,*/}
+                        {/*                  points: 5*/}
+                        {/*              }}*/}
+                        {/*        />*/}
+                        {/*        <Wave fill='#4db1fd'*/}
+                        {/*              paused={false}*/}
+                        {/*              options={{*/}
+                        {/*                  height: 50,*/}
+                        {/*                  amplitude: 40,*/}
+                        {/*                  speed: 0.10,*/}
+                        {/*                  points: 3*/}
+                        {/*              }}*/}
+                        {/*        />*/}
+                        {/*    </div>*/}
+                        {/*</div>*/}
 
 
                     </section>
                     <section className=" right-col col">
                         <GoogleMapReact
                             bootstrapURLKeys={{key: " AIzaSyB7XZM9ZU0jM3SAnFxfLes_8OXOQ0ugI9I"}}
-                            center={[this.state.lat, this.state.lng]} zoom={this.state.radius}>
+                            center={[this.state.lat, this.state.lng]} zoom={this.state.radius}
+                        >
                             {this.state.hospitals.map(h => {
                                 return <Marker key={h.id} lat={h.lat} lng={h.lng} selected={this.state.hospSelected}
                                                hospitalSelect={this.hospitalSelect} hosp={h}/>
