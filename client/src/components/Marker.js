@@ -2,7 +2,7 @@ import React from 'react';
 
 const Marker = (props) => {
     const {name, phone, address, id} = props.hosp;
-    const selected = props.selected === id ? 'selected' : '';
+    const selected = props.selected.id === id ? 'selected' : '';
     return (
         <div className={'marker ' + selected} onClick={() => props.hospitalSelect(props.hosp)}>
             <i className="fas fa-hospital"/>

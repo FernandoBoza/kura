@@ -3,8 +3,8 @@ import GoogleMapReact from 'google-map-react';
 import Marker from "./components/Marker";
 import SearchBar from "./components/SearchBar";
 import axios from "axios";
-import Wave from 'react-wavify'
 import Result from "./components/Results";
+import {ProcedureLayout} from "./components/ProcedureLayout"
 
 class App extends React.Component {
 
@@ -15,16 +15,19 @@ class App extends React.Component {
         lat: 25.7617,
         lng: -80.1918,
         radius: 12,
-        hospSelected: ''
+        hospSelected: [],
+        procedures: [],
+        hideMap: false
     };
 
     getZipcodeCoordinates = (zipcode, radius) => {
-        let zipSearch = `https://maps.googleapis.com/maps/api/geocode/json?address=${zipcode}&key=AIzaSyB7XZM9ZU0jM3SAnFxfLes_8OXOQ0ugI9I`;
-        axios.get(zipSearch)
-            .then(res => {
-                let {lat, lng} = res.data['results'][0].geometry.location;
-                this.findAllHospitals(radius, lat, lng)
-            })
+        // let zipSearch = `https://maps.googleapis.com/maps/api/geocode/json?address=${zipcode}&key=AIzaSyB7XZM9ZU0jM3SAnFxfLes_8OXOQ0ugI9I`;
+        // axios.get(zipSearch)
+        //     .then(res => {
+        //         let {lat, lng} = res.data['results'][0].geometry.location;
+                this.findAllHospitals(radius, 25.7617, -80.1918)
+                // this.findAllHospitals(radius, lat, lng)
+            // })
     };
 
     calcRadius = radius => {
@@ -51,12 +54,17 @@ class App extends React.Component {
     };
 
     hospitalSelect = hospital => {
+
         this.setState({
-            hospSelected: hospital.id
+            hospSelected: hospital,
+            procedures: hospital.procedures,
+            hideMap: true
         });
     };
 
     render() {
+
+        const hide = this.state.hideMap ? "hide" : 'show';
         return (
             <section className="app">
                 <nav>
@@ -78,42 +86,24 @@ class App extends React.Component {
 
                         <Result hospitals={this.state.hospitals} lat={this.state.lat} lng={this.state.lng} selected={this.state.hospSelected} hospitalSelect={this.hospitalSelect}/>
 
-                        {/*<div className="wave_blocks" >*/}
-                        {/*    <div className=" block blue">*/}
-                        {/*        <p>Hospitals</p>*/}
-                        {/*        <Wave fill='#ffffff'*/}
-                        {/*              paused={false}*/}
-                        {/*              options={{*/}
-                        {/*                  height: 40,*/}
-                        {/*                  amplitude: 10,*/}
-                        {/*                  speed: 0.15,*/}
-                        {/*                  points: 5*/}
-                        {/*              }}*/}
-                        {/*        />*/}
-                        {/*        <Wave fill='#4db1fd'*/}
-                        {/*              paused={false}*/}
-                        {/*              options={{*/}
-                        {/*                  height: 50,*/}
-                        {/*                  amplitude: 40,*/}
-                        {/*                  speed: 0.10,*/}
-                        {/*                  points: 3*/}
-                        {/*              }}*/}
-                        {/*        />*/}
-                        {/*    </div>*/}
-                        {/*</div>*/}
 
 
                     </section>
                     <section className=" right-col col">
-                        <GoogleMapReact
-                            bootstrapURLKeys={{key: " AIzaSyB7XZM9ZU0jM3SAnFxfLes_8OXOQ0ugI9I"}}
-                            center={[this.state.lat, this.state.lng]} zoom={this.state.radius}
-                        >
-                            {this.state.hospitals.map(h => {
-                                return <Marker key={h.id} lat={h.lat} lng={h.lng} selected={this.state.hospSelected}
-                                               hospitalSelect={this.hospitalSelect} hosp={h}/>
-                            })}
-                        </GoogleMapReact>
+
+                        <ProcedureLayout procedures={this.state.procedures} hospital={this.state.hospSelected}/>
+
+                        <section className={hide}>
+                            <GoogleMapReact
+                                bootstrapURLKeys={{key: " AIzaSyB7XZM9ZU0jM3SAnFxfLes_8OXOQ0ugI9I"}}
+                                center={[this.state.lat, this.state.lng]} zoom={this.state.radius}
+                            >
+                                {this.state.hospitals.map(h => {
+                                    return <Marker key={h.id} lat={h.lat} lng={h.lng} selected={this.state.hospSelected} hospitalSelect={this.hospitalSelect} hosp={h}/>
+                                })}
+                            </GoogleMapReact>
+                        </section>
+
                     </section>
                 </section>
             </section>

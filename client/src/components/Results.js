@@ -12,7 +12,7 @@ const Result = (props) => {
     return (
         <ul className='hospital-results'>
             {sortedResult.map(h => {
-                let selected = props.selected === h.hospital.id ? 'selected' : '';
+                let selected = props.selected.id === h.hospital.id ? 'selected' : '';
                 return (
                     <li key={h.hospital.id} className={selected} onClick={() => props.hospitalSelect(h.hospital)}>
                         <i className="fas fa-hospital"/>
