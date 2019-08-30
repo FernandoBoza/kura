@@ -11,21 +11,23 @@ export default class SearchBar extends Component {
             value: e.target.value
         });
 
-        if (e.key === 'Enter'){
+        if (e.key === 'Enter') {
             this.handleSubmit(e)
         }
     };
 
     handleSubmit = e => {
-    e.preventDefault();
+        e.preventDefault();
         this.props.search(this.state.value, 10)
     };
 
     render() {
-        return(
+        return (
             <div className="search_icon_input">
                 <i className="fas fa-search"/>
-                <input type="text" onChange={this.handleChange} onKeyDown={this.handleChange} placeholder="Search via zipcodes or services" className="home-search"/>
+                <input type="text" onChange={this.handleChange} onKeyDown={this.handleChange}
+                       placeholder={this.props.placeholder} className="home-search"/>
+
                 <button className="primary" onClick={this.handleSubmit}> Search</button>
             </div>
         )

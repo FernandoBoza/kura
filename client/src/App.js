@@ -4,7 +4,7 @@ import Marker from "./components/Marker";
 import SearchBar from "./components/SearchBar";
 import axios from "axios";
 import Result from "./components/Results";
-import {ProcedureLayout} from "./components/ProcedureLayout"
+import ProcedureLayout from "./components/ProcedureLayout"
 
 class App extends React.Component {
 
@@ -60,7 +60,6 @@ class App extends React.Component {
     };
 
     getAllProcedures = hospital => {
-        console.log("clicked");
         this.setState({
             hideMap: true,
             procedures: hospital.procedures,
@@ -87,7 +86,7 @@ class App extends React.Component {
                             Consequatur illo inventore ipsum iure nobis porro quasi reiciendis vitae.</p>
 
 
-                        <SearchBar search={this.getZipcodeCoordinates}/>
+                        <SearchBar placeholder={"Search via zipcodes or services"} search={this.getZipcodeCoordinates}/>
 
                         <Result hospitals={this.state.hospitals} lat={this.state.lat} lng={this.state.lng}
                                 selected={this.state.hospSelected} hospitalSelect={this.hospitalSelect}
