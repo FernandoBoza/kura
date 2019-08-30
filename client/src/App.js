@@ -21,13 +21,12 @@ class App extends React.Component {
     };
 
     getZipcodeCoordinates = (zipcode, radius) => {
-        // let zipSearch = `https://maps.googleapis.com/maps/api/geocode/json?address=${zipcode}&key=AIzaSyB7XZM9ZU0jM3SAnFxfLes_8OXOQ0ugI9I`;
-        // axios.get(zipSearch)
-        //     .then(res => {
-        //         let {lat, lng} = res.data['results'][0].geometry.location;
-                this.findAllHospitals(radius, 25.7617, -80.1918)
-                // this.findAllHospitals(radius, lat, lng)
-            // })
+        let zipSearch = `https://maps.googleapis.com/maps/api/geocode/json?address=${zipcode}&key=AIzaSyB7XZM9ZU0jM3SAnFxfLes_8OXOQ0ugI9I`;
+        axios.get(zipSearch)
+            .then(res => {
+                let {lat, lng} = res.data['results'][0].geometry.location;
+                this.findAllHospitals(radius, lat, lng)
+            })
     };
 
     calcRadius = radius => {
@@ -57,14 +56,20 @@ class App extends React.Component {
 
         this.setState({
             hospSelected: hospital,
+        });
+    };
+
+    getAllProcedures = hospital => {
+        console.log("clicked");
+        this.setState({
+            hideMap: true,
             procedures: hospital.procedures,
-            hideMap: true
         });
     };
 
     render() {
 
-        const hide = this.state.hideMap ? "hide" : 'show';
+        const hide = this.state.hideMap;
         return (
             <section className="app">
                 <nav>
@@ -84,22 +89,26 @@ class App extends React.Component {
 
                         <SearchBar search={this.getZipcodeCoordinates}/>
 
-                        <Result hospitals={this.state.hospitals} lat={this.state.lat} lng={this.state.lng} selected={this.state.hospSelected} hospitalSelect={this.hospitalSelect}/>
-
+                        <Result hospitals={this.state.hospitals} lat={this.state.lat} lng={this.state.lng}
+                                selected={this.state.hospSelected} hospitalSelect={this.hospitalSelect}
+                                getAllProcedures={this.getAllProcedures}
+                        />
 
 
                     </section>
-                    <section className=" right-col col">
+                    <section className={hide ? 'right-col col query' : 'right-col col'}>
 
-                        <ProcedureLayout procedures={this.state.procedures} hospital={this.state.hospSelected}/>
+                        <ProcedureLayout class={hide ? 'show' : 'hide'} procedures={this.state.procedures}
+                                         hospital={this.state.hospSelected}/>
 
-                        <section className={hide}>
+                        <section className={!hide ? 'show' : 'hide'}>
                             <GoogleMapReact
                                 bootstrapURLKeys={{key: " AIzaSyB7XZM9ZU0jM3SAnFxfLes_8OXOQ0ugI9I"}}
                                 center={[this.state.lat, this.state.lng]} zoom={this.state.radius}
                             >
                                 {this.state.hospitals.map(h => {
-                                    return <Marker key={h.id} lat={h.lat} lng={h.lng} selected={this.state.hospSelected} hospitalSelect={this.hospitalSelect} hosp={h}/>
+                                    return <Marker key={h.id} lat={h.lat} lng={h.lng} selected={this.state.hospSelected}
+                                                   hospitalSelect={this.hospitalSelect} hosp={h}/>
                                 })}
                             </GoogleMapReact>
                         </section>

@@ -5,5 +5,5 @@ import org.springframework.data.repository.CrudRepository;
 
 import java.util.List;
 
-public interface HospitalRepository extends JpaRepository<Hospital, Integer> {
+public interface HospitalRepository extends CrudRepository<Hospital, Integer> {
 }

@@ -22,7 +22,7 @@ const Result = (props) => {
                             <p className="phone">
                                 <a href={'tel:'+h.hospital.phone}>{h.hospital.phone}</a>
                             </p>
-                            <p className="services-icon"><i className="fas fa-heartbeat"/> <span> Services</span></p>
+                            <p onClick={()=> props.getAllProcedures(h.hospital)} className="services-icon"><i className="fas fa-heartbeat"/> <span> Services</span></p>
                         </div>
                     </li>
                 )

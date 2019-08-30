@@ -35,7 +35,12 @@ public class ProceduresController {
     }
 
     @DeleteMapping(path = "{hosp_id}/procedures/{id}")
-    public String deleteHospital(@PathVariable String hosp_id ,@PathVariable String id){
+    public String deleteProcedure(@PathVariable String hosp_id ,@PathVariable String id){
         return proceduresService.deleteProcedures(hosp_id, id);
+    }
+
+    @DeleteMapping(path = "{hosp_id}/procedures")
+    public String deleteAllProcedure(@PathVariable String hosp_id){
+        return proceduresService.deleteAllProcedures(hosp_id);
     }
 }
