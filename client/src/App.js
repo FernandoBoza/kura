@@ -21,12 +21,13 @@ class App extends React.Component {
     };
 
     getZipcodeCoordinates = (zipcode, radius) => {
-        let zipSearch = `https://maps.googleapis.com/maps/api/geocode/json?address=${zipcode}&key=AIzaSyB7XZM9ZU0jM3SAnFxfLes_8OXOQ0ugI9I`;
-        axios.get(zipSearch)
-            .then(res => {
-                let {lat, lng} = res.data['results'][0].geometry.location;
-                this.findAllHospitals(radius, lat, lng)
-            })
+        // let zipSearch = `https://maps.googleapis.com/maps/api/geocode/json?address=${zipcode}&key=AIzaSyB7XZM9ZU0jM3SAnFxfLes_8OXOQ0ugI9I`;
+        // axios.get(zipSearch)
+        //     .then(res => {
+        //         let {lat, lng} = res.data['results'][0].geometry.location;
+                this.findAllHospitals(radius, this.state.lat, this.state.lng)
+                // this.findAllHospitals(radius, lat, lng)
+            // })
     };
 
     calcRadius = radius => {
@@ -67,7 +68,6 @@ class App extends React.Component {
     };
 
     render() {
-
         const hide = this.state.hideMap;
         return (
             <section className="app">
@@ -81,12 +81,12 @@ class App extends React.Component {
                 <section className="main">
                     <section className="left-col col">
                         <h1>{this.state.title}</h1>
-                        <p className=" intro">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aperiam corporis
+                        <p className={this.state.hospitals.length === 0 ? 'show intro' : 'hide'}>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aperiam corporis
                             expedita minima omnis perspiciatis quasi quibusdam quis reiciendis repellendus ut!
                             Consequatur illo inventore ipsum iure nobis porro quasi reiciendis vitae.</p>
 
 
-                        <SearchBar placeholder={"Search via zipcodes or services"} search={this.getZipcodeCoordinates}/>
+                        <SearchBar fuzzy={false} placeholder={"Search via zipcodes or services"} search={this.getZipcodeCoordinates}/>
 
                         <Result hospitals={this.state.hospitals} lat={this.state.lat} lng={this.state.lng}
                                 selected={this.state.hospSelected} hospitalSelect={this.hospitalSelect}

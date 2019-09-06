@@ -14,11 +14,18 @@ export default class SearchBar extends Component {
         if (e.key === 'Enter') {
             this.handleSubmit(e)
         }
+
+        if (this.props.fuzzy){
+            this.props.search(this.state.value);
+        }
     };
 
     handleSubmit = e => {
         e.preventDefault();
         this.props.search(this.state.value, 10)
+        this.setState({
+            value: ''
+        })
     };
 
     render() {

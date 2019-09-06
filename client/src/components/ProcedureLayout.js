@@ -42,8 +42,8 @@ export default class ProcedureLayout extends Component {
     render() {
         return (
             <div className={this.props.class}>
-                <h2>Search Services</h2>
-                <SearchBar placeholder={'Search services'} search={this.fuzzySearchProcedures}/>
+                <h2>Search Services </h2>
+                <SearchBar fuzzy={true} placeholder={'Search services'} search={this.fuzzySearchProcedures}/>
                 <ul className="search_query">
                     {this.state.procedures.map(p => {
                         return (
