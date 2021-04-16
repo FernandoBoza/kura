@@ -82,6 +82,11 @@ public class ProceduresService {
         } else {
             return "Doesn't Exist";
         }
+    }
 
+    public String deleteAllProcedures(String hosp_id){
+        Hospital h = getFromOptional(hospitalRepository.findById(Integer.parseInt(hosp_id)));
+        proceduresRepository.deleteAll(findAllProcedures(hosp_id));
+        return "Delete All Procedures from " + h.getName();
     }
 }
